@@ -53,6 +53,9 @@ while(i != 0):
 
         soup = BeautifulSoup(html_content, 'html.parser')
 
+        for center in soup.find_all("center"):
+                center.decompose()
+
         div_message = soup.find("div", class_="affichage")
 
         if div_message:
@@ -120,6 +123,12 @@ while(i != 0):
         html_content = response.text
 
         soup = BeautifulSoup(html_content, 'html.parser')
+
+        for center in soup.find_all("center"):
+                center.decompose()
+
+        for center in soup.find_all("center"):
+                center.decompose()
 
         div_message = soup.find("div", class_="affichage")
 
@@ -190,6 +199,9 @@ while(i != 0):
 
         soup = BeautifulSoup(html_content, 'html.parser')
 
+        for center in soup.find_all("center"):
+                center.decompose()
+
         div_message = soup.find("div", class_="affichage")
 
         if div_message:
@@ -238,6 +250,9 @@ while(i != 0):
         html_content = response.text
 
         soup = BeautifulSoup(html_content, 'html.parser')
+
+        for center in soup.find_all("center"):
+                center.decompose()
 
         texte_brut = soup.get_text(separator=' ', strip=True)
 
@@ -302,6 +317,9 @@ while(i != 0):
         html_content = response.text
 
         soup = BeautifulSoup(html_content, 'html.parser')
+
+        for center in soup.find_all("center"):
+                center.decompose()
 
         div_message = soup.find("div", class_="affichage")
 
@@ -372,6 +390,9 @@ while(i != 0):
 
         soup = BeautifulSoup(html_content, 'html.parser')
 
+        for center in soup.find_all("center"):
+                center.decompose()
+
         div_message = soup.find("div", class_="affichage")
 
         if div_message:
@@ -418,6 +439,9 @@ while(i != 0):
         html_content = response.text
 
         soup = BeautifulSoup(html_content, 'html.parser')
+
+        for center in soup.find_all("center"):
+                center.decompose()
 
         texte_brut = soup.get_text(separator=' ', strip=True)
 
