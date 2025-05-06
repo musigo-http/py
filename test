@@ -1,0 +1,70 @@
+import requests
+from bs4 import BeautifulSoup
+from apify_client import ApifyClient
+
+client = ApifyClient("e9489ff5-7a0b-4a29-89da-a4139fa608bc")
+
+run_input = {
+    "searchUrl": "https://www.linkedin.com/sales/search/people?savedSearchId=1910718498&sessionId=WHAPqbKURSOTqFm5%2FgpgJw%3D%3D&rkkt=true",
+    "maxItems": 10,
+}
+
+run = client.actor("curious_coder/linkedin-sales-navigator-search-scraper").call(run_input=run_input)
+
+dataset = client.dataset(run["defaultDatasetId"])
+for item in dataset.iter_items():
+    print(item["firstName"], item["lastName"], item["jobTitle"], item["bio"])
+
+
+
+
+
+
+
+
+
+
+with open("transcription.txt", "r") as file:
+    readfile = file.read()
+
+url = 'https://ile-reunion.org/gpt3/resultat'
+data = {
+        'D1': 'Option sortie audio',
+        'exemple-prompt': 'Exemples de prompt',
+        'xscreen': '1280',
+        'yscreen': '800',
+        'question': f"redige moi un email qui ne fait pas chat gpt mais plus hummain"
+    }
+
+headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.6533.100 Safari/537.36',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept-Language': 'fr-FR',
+        'Referer': 'https://ile-reunion.org/gpt3/',
+    }
+
+response = requests.post(url, data=data, headers=headers)
+
+if response.status_code == 200:
+    html_content = response.text
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    texte_brut = soup.get_text(separator=' ', strip=True)
+
+    p_resultat = soup.find('p', text=lambda x: x and 'Résultat :' in x)
+    if p_resultat:
+        suivant = p_resultat.find_next_sibling(text=True)
+        if suivant:
+            texte_suivant = suivant.strip()
+            print(texte_suivant)
+            with open("synthese.txt", "a") as synthesewrite:
+                synthesewrite.write(texte_suivant)
+
+        else:
+            print("Texte suivant non trouvé")
+    else:
+        print("Balise <p> avec 'Résultat :' non trouvée")
+
+else:
+    print(f"Erreur lors de la requête : {response.status_code}")
